@@ -56,7 +56,7 @@ def main():
     particles = [particle.Particle(generation=0) for i in range(config.POPULATION)]
 
     # Uncomment this to start with one element having the most optimal chromosome
-    # particles[0].chromosomes = ['d', 'r'] * (config.CHROMOSOME_LENGTH / 2)
+    # particles[0].chromosomes = ['d', 'r'] * (config.CHROMOSOME_LENGTH // 2)
 
     # Run the trials and sort particles based on their fitness (zeroth gen)
     trial(particles)
@@ -66,7 +66,7 @@ def main():
         generation += 1
 
         # Get the survivors from this generation
-        particles = get_survivors(generation, particles)
+        particles = get_survivors(generation-1, particles)
 
         # Increase population by making children!
         children = make_children(particles, 50, generation)
@@ -79,7 +79,7 @@ def main():
         particles = children
         trial(particles)
 
-    get_survivors(generation+1, particles)
+    get_survivors(generation, particles)
     print(particles[0].fitness, particles[0].chromosomes, particles[0].position)
     # print(particles[0].fitness, particles[0].position)
     # pprint(particles[0].maze)
