@@ -86,3 +86,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # maze = particle.Particle.get_maze()
+    # pprint(maze)

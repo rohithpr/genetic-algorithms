@@ -2,7 +2,7 @@
 MOVES = ['l', 'r', 'u', 'd', 's']
 
 # No. of generations
-GENERATIONS = 50
+GENERATIONS = 500
 
 # No. of specimens per generation
 POPULATION = 100
@@ -18,10 +18,14 @@ CHROMOSOME_LENGTH = 50
 MUTATION_PROBABILITY = 0.007
 
 # Maze dimensions
-MAZE_HEIGHT = 100
-MAZE_WIDTH = 100
+MAZE_HEIGHT = 12
+MAZE_WIDTH = 12
+
+# Select the maze to be solved
+# A maze with no walls will be created if an invalid number is given
+MAZE_NUMBER = 1
 
 # Reward for finishing the maze
 # This reward will be awarded if the maze has a position marked 'f'.
 # Reaching this element also stops execution of subsequent moves
-REWARD = 10
+REWARD = 5000

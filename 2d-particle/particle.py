@@ -1,3 +1,4 @@
+from pprint import pprint
 import random
 
 import config
@@ -18,19 +19,36 @@ class Particle:
 
     @staticmethod
     def get_maze():
-        maze = [[i*j for j in WIDTH] for i in HEIGHT]
+        if config.MAZE_NUMBER == 1:
+            maze = [ ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
+                     ['b',   0,   0, 'b',   0,   0, 'b',   0,   0,   0, 'b',   0,   0, 'b'],
+                     ['b',   0,   1,   2, 'b',   4, 'b',   6,   7,   8,   9,  10,  11, 'b'],
+                     ['b', 'b', 'b',   4, 'b',   8,  10, 'b', 'b',  16,  18,  20,  22, 'b'],
+                     ['b',   0,   3,   6, 'b',  12,  15,  18,  21,  24,  27, 'b',  33, 'b'],
+                     ['b',   0,   4,   8,  12,  16,  20,  24,  28,  32,  36, 'b',  44, 'b'],
+                     ['b',   0, 'b',  10,  15, 'b', 'b', 'b',  35, 'b',  45, 'b',  55, 'b'],
+                     ['b',   0, 'b',  12,  18, 'b',  30,  36,  42, 'b',  54, 'b',  66, 'b'],
+                     ['b',   0,   7, 'b',  21, 'b',  35,  42,  49,  56,  63, 'b',  77, 'b'],
+                     ['b',   0,   8, 'b',  24, 'b',  40,  48,  56,  64,  72,  80,  88, 'b'],
+                     ['b', 'b',   9, 'b',  27, 'b',  45, 'b', 'b', 'b',  81, 'b', 'b', 'b'],
+                     ['b',   0,  10, 'b',  30,  40,  50,  60,  70, 'b',  90, 100, 110, 'b'],
+                     ['b',   0,  11, 'b',  33,  44,  55,  66,  77, 'b',  99, 110, 'f', 'b'],
+                     ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b', 'b']]
 
-        # Optional: position where the maze terminates
-        # maze[-1][-1] = 'f'
+        else:
+            maze = [[i*j for j in WIDTH] for i in HEIGHT]
 
-        # Add borders
-        # Sides
-        for i in HEIGHT:
-            maze[i] = ['b'] + maze[i] + ['b']
-        # Top and bottom
-        blanks = [['b'] * (config.MAZE_WIDTH + 2)]
-        maze = blanks + maze + blanks
-        # print(maze[10][9], maze[9][10])
+            # Optional: position where the maze terminates
+            maze[-1][-1] = 'f'
+
+            # Add borders
+            # Sides
+            for i in HEIGHT:
+                maze[i] = ['b'] + maze[i] + ['b']
+            # Top and bottom
+            blanks = [['b'] * (config.MAZE_WIDTH + 2)]
+            maze = blanks + maze + blanks
+
         return maze
 
     def __init__(self, chromosomes=None, maze=None, fitness=0, position=[1, 1], generation=-1):
@@ -71,13 +89,13 @@ class Particle:
     def update_position(self, move):
         new_pos = self.position[:]
         if move == 'l':
-            new_pos[0] -= 1
-        elif move == 'r':
-            new_pos[0] += 1
-        elif move == 'u':
             new_pos[1] -= 1
-        elif move == 'd':
+        elif move == 'r':
             new_pos[1] += 1
+        elif move == 'u':
+            new_pos[0] -= 1
+        elif move == 'd':
+            new_pos[0] += 1
 
         value = self.maze[new_pos[0]][new_pos[1]]
         if value == 'b':
@@ -95,6 +113,10 @@ class Particle:
     def move(self):
         move = self.get_next_move()
         value = self.update_position(move)
+
+        # Uncomment the following lines to step through each move and trace the particle
+        # print(move, self.position)
+        # k = input()
 
         if value is not None:
             # Add the value from maze to fitness
